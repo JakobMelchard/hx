@@ -1,8 +1,8 @@
-# Closes the loop: every core change runs every consumer's full suite against that exact core sha.
+# Closes the loop: every hx change runs every consumer's full suite against that exact hx sha.
 name: consumers-e2e
 on:
   workflow_call:
-    inputs: { core-ref: { type: string, required: true } }
+    inputs: { hx-ref: { type: string, required: true } }
 jobs:
   load:
     runs-on: ubuntu-latest
@@ -22,6 +22,6 @@ jobs:
         with: { node-version: '22' }
       # Consumers are checked out from another repo, so this cannot call the
       # shared node.yml — that workflow builds its own caller's checkout.
-      - run: npm install && npm i --no-save "github:JakobMelchard/core#${{ inputs.core-ref }}"
+      - run: npm install && npm i --no-save "github:JakobMelchard/hx#${{ inputs.hx-ref }}"
       - run: npx playwright-core install --with-deps chromium
       - run: npx tsc && npm test && npm run e2e

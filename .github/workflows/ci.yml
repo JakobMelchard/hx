@@ -12,5 +12,5 @@ jobs:
   consumers:
     needs: self
     uses: ./.github/workflows/consumers-e2e.yml
-    with: { core-ref: '${{ github.event.pull_request.head.sha || github.sha }}' }
+    with: { hx-ref: '${{ github.event.pull_request.head.sha || github.sha }}' }
     secrets: inherit
