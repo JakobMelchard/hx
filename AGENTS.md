@@ -1,6 +1,6 @@
-# core — htmx 4 platform for Node, Workers, and in-page apps
+# hx — htmx 4 platform for Node, Workers, and in-page apps
 
-Distributed as an npm package (`@jakobmelchard/core`), consumed by the repos in
+Distributed as an npm package (`@jakobmelchard/hx`), consumed by the repos in
 `consumers.json`. JSDoc only, no TypeScript syntax; `tsc --checkJs` is the type gate.
 
 ## Commands
@@ -26,7 +26,7 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 - `src/transport.js` htmx 4 in-page `ctx.fetch` override, the Android seam
 - `src/store/{memory,fs,r2}.js` Store adapters, `src/store/contract.js` `runStoreContract`
 - `src/types.js` shared typedefs
-- `agents/skills/` promote-pattern, upgrade-core, new-hx-app, add-store-adapter
+- Skills live in `JakobMelchard/.agents` (`agents-sync`); nothing ships inside this package
 - `templates/hx-app/`, `.devcontainer/` consumer scaffold
 - `SPEC.md` design, `PROMPTS.md` roadmap as one PR per prompt
 
@@ -37,7 +37,7 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 - No speculative abstraction. Core does not merge a feature without at least one
   real consumer using it. Promote when a pattern exists in two consumers, or is a
   Store, transport, or CI seam.
-- Consumers pin tags. Nothing references core `main`. Bump `version` and tag when
+- Consumers pin tags. Nothing references hx `main`. Bump `version` and tag when
   `src/` changes, or consumers cannot pick the change up.
 - `matchPath` is a split-segment matcher, deliberately not `URLPattern`: Android
   WebView support varies. Do not "modernise" it.
@@ -47,16 +47,16 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 ## CI
 
 - `ci.yml` calls the shared `JakobMelchard/.github` `node.yml`, then `consumers-e2e.yml`.
-- `consumers-e2e.yml` checks out every repo in `consumers.json`, installs core at the
+- `consumers-e2e.yml` checks out every repo in `consumers.json`, installs hx at the
   PR sha, runs that consumer's full suite. It cannot call the shared `node.yml`,
   which only builds its own caller's checkout.
-- Hooks come from `JakobMelchard/.github`. `.githooks/pre-commit.local` adds tsc and
+- Hooks are vendored from `JakobMelchard/.githooks` (`hooks-install`). `.githooks/pre-commit.local` adds tsc and
   tests locally, because a broken export reaches consumers before their CI runs.
 
 ## Gotchas
 
 - `SPEC.md` section 4 is aspirational and does not match the tree. It describes
-  `packages/hx/` and an `@core/hx` package name; the real layout is flat `src/` with
-  subpath exports from `@jakobmelchard/core`. Trust the tree, not the spec, for layout.
-- `SPEC.md` is titled for `lift` because core was extracted from it. It is still the
+  `packages/hx/` and an `@hx/hx` package name; the real layout is flat `src/` with
+  subpath exports from `@jakobmelchard/hx`. Trust the tree, not the spec, for layout.
+- `SPEC.md` is titled for `lift` because hx was extracted from it. It is still the
   design document for both.
