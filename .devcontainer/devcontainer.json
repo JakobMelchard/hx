@@ -1,9 +1,20 @@
 {
-  "name": "hx-app",
+  "name": "hx",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
   "features": {
+    "ghcr.io/jakobmelchard/devcontainer/ws:1": {},
+    "ghcr.io/jakobmelchard/devcontainer/hx-app:1": {},
     "ghcr.io/devcontainers/features/java:1": { "version": "21" }
   },
-  "postCreateCommand": "npm ci && npx playwright-core install --with-deps chromium && curl -fsSL https://raw.githubusercontent.com/JakobMelchard/.github/main/hooks/install.sh | bash",
-  "customizations": { "codespaces": { "openFiles": ["SPEC.md"] } }
+  "postCreateCommand": "npm ci && hooks-install",
+  "customizations": {
+    "codespaces": {
+      "openFiles": ["SPEC.md"],
+      "repositories": {
+        "JakobMelchard/.githooks": { "permissions": { "contents": "read" } },
+        "JakobMelchard/.agents": { "permissions": { "contents": "read" } },
+        "JakobMelchard/.config": { "permissions": { "contents": "read" } }
+      }
+    }
+  }
 }

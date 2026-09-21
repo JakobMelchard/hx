@@ -1,5 +1,5 @@
 {
-  "name": "@jakobmelchard/core",
+  "name": "@jakobmelchard/hx",
   "version": "0.2.0",
   "type": "module",
   "exports": {
@@ -42,9 +42,7 @@
   },
   "files": [
     "src",
-    "types",
-    "agents",
-    "templates"
+    "types"
   ],
   "scripts": {
     "prepare": "tsc -p tsconfig.build.json",

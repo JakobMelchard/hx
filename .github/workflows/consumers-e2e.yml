@@ -1,27 +1,51 @@
-# Closes the loop: every core change runs every consumer's full suite against that exact core sha.
+# Closes the loop: every hx change runs every consumer's full suite against that exact hx sha.
 name: consumers-e2e
 on:
   workflow_call:
-    inputs: { core-ref: { type: string, required: true } }
+    inputs: { hx-ref: { type: string, required: true } }
 jobs:
   load:
     runs-on: ubuntu-latest
     outputs: { matrix: '${{ steps.m.outputs.matrix }}' }
     steps:
       - uses: actions/checkout@v4
+      # `name` is the bare repo, which create-github-app-token wants; GitHub
+      # expressions have no split(), so derive it here rather than in the job.
       - id: m
-        run: echo "matrix=$(jq -c . consumers.json)" >> "$GITHUB_OUTPUT"
+        run: |
+          echo "matrix=$(jq -c '[.[] | . + {name: (.repo | split("/") | .[1])}]' consumers.json)" >> "$GITHUB_OUTPUT"
   run:
     needs: load
     strategy: { fail-fast: false, matrix: { consumer: '${{ fromJSON(needs.load.outputs.matrix) }}' } }
     runs-on: ubuntu-latest
+    env:
+      # `secrets` is not allowed in a step-level `if`. Evaluate it here so only
+      # the boolean — never the key — reaches env.
+      HAS_APP: ${{ secrets.APP_PRIVATE_KEY != '' }}
     steps:
+      # github.token only reads this repo, so a private consumer 404s on
+      # checkout. The melchbot app is installed org-wide; mint a token scoped
+      # to just this consumer, read-only, revoked when the job ends.
+      - name: mint app token
+        id: app
+        if: env.HAS_APP == 'true'
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          client-id: ${{ secrets.APP_CLIENT_ID }}
+          private-key: ${{ secrets.APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ matrix.consumer.name }}
+          permission-contents: read
+
       - uses: actions/checkout@v4
-        with: { repository: '${{ matrix.consumer.repo }}', ref: '${{ matrix.consumer.ref }}', token: '${{ secrets.CONSUMERS_TOKEN || github.token }}' }
+        with:
+          repository: '${{ matrix.consumer.repo }}'
+          ref: '${{ matrix.consumer.ref }}'
+          token: '${{ steps.app.outputs.token || secrets.CONSUMERS_TOKEN || github.token }}'
       - uses: actions/setup-node@v4
         with: { node-version: '22' }
       # Consumers are checked out from another repo, so this cannot call the
       # shared node.yml — that workflow builds its own caller's checkout.
-      - run: npm install && npm i --no-save "github:JakobMelchard/core#${{ inputs.core-ref }}"
+      - run: npm install && npm i --no-save "github:JakobMelchard/hx#${{ inputs.hx-ref }}"
       - run: npx playwright-core install --with-deps chromium
       - run: npx tsc && npm test && npm run e2e
