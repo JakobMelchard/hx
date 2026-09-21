@@ -1,6 +1,6 @@
 {
   "name": "@jakobmelchard/core",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "type": "module",
   "exports": {
     "./handle": {
@@ -26,6 +26,10 @@
     "./store/fs": {
       "types": "./types/store/fs.d.ts",
       "default": "./src/store/fs.js"
+    },
+    "./store/r2": {
+      "types": "./types/store/r2.d.ts",
+      "default": "./src/store/r2.js"
     },
     "./store/contract": {
       "types": "./types/store/contract.d.ts",

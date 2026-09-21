@@ -9,7 +9,7 @@ Platform for minimal htmx 4 + JSDoc apps that run as Node server, Cloudflare Wor
 - Types: JSDoc only; `prepare` emits `.d.ts` into `types/` (gitignored) so consumers can run `tsc --strict`. Bump the version and tag when `src/` changes — consumers pin a tag.
 - Design: `SPEC.md` · roadmap prompts: `PROMPTS.md`
 
-Status: P1, P2, core of P7/P8 done. Next: P5 (R2 store), P6 (SAF store + Capacitor).
+Status: P1, P2, P5a (R2 store), core of P7/P8 done. Next: rest of P5 (lift `worker.js` + `wrangler.toml` on the R2 binding), P6 (SAF store + Capacitor).
 
 ```
 npm ci && npx tsc && npm test && npm run e2e   # e2e: CHROMIUM_PATH=/path/to/chrome if needed
