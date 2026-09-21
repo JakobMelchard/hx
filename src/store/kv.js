@@ -1,12 +1,12 @@
-/** Minimal structural types for the KV surface used here, so core stays dependency-free. */
+/** Minimal structural types for the KV surface used here, so hx stays dependency-free. */
 /** @typedef {{name:string}} KVKey */
 /** @typedef {{keys:KVKey[], list_complete:boolean, cursor?:string}} KVListing */
 /** @typedef {{list(opts:{prefix:string, cursor?:string}):Promise<KVListing>, get(key:string):Promise<string|null>, put(key:string, value:string):Promise<unknown>, delete(key:string):Promise<unknown>}} KVNamespace */
 
 /**
- * KV is eventually consistent: a `put` is not guaranteed to show up in a `list`
- * or in a `get` from another colo for up to a minute. Prefer r2Store where a
- * write has to be visible to the next request.
+ * `get` is read-your-write within a colo, but `list` lags by up to a minute, so
+ * a freshly written key can be missing from the next listing. Prefer r2Store
+ * when a write has to show up in a listing immediately.
  * @param {KVNamespace} ns @returns {import('../types.js').Store}
  */
 export const kvStore = ns => ({
