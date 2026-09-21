@@ -1,0 +1,27 @@
+# Closes the loop: every hx change runs every consumer's full suite against that exact hx sha.
+name: consumers-e2e
+on:
+  workflow_call:
+    inputs: { hx-ref: { type: string, required: true } }
+jobs:
+  load:
+    runs-on: ubuntu-latest
+    outputs: { matrix: '${{ steps.m.outputs.matrix }}' }
+    steps:
+      - uses: actions/checkout@v4
+      - id: m
+        run: echo "matrix=$(jq -c . consumers.json)" >> "$GITHUB_OUTPUT"
+  run:
+    needs: load
+    strategy: { fail-fast: false, matrix: { consumer: '${{ fromJSON(needs.load.outputs.matrix) }}' } }
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { repository: '${{ matrix.consumer.repo }}', ref: '${{ matrix.consumer.ref }}', token: '${{ secrets.CONSUMERS_TOKEN || github.token }}' }
+      - uses: actions/setup-node@v4
+        with: { node-version: '22' }
+      # Consumers are checked out from another repo, so this cannot call the
+      # shared node.yml — that workflow builds its own caller's checkout.
+      - run: npm install && npm i --no-save "github:JakobMelchard/hx#${{ inputs.hx-ref }}"
+      - run: npx playwright-core install --with-deps chromium
+      - run: npx tsc && npm test && npm run e2e
