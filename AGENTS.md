@@ -26,7 +26,7 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 - `src/transport.js` htmx 4 in-page `ctx.fetch` override, the Android seam
 - `src/store/{memory,fs,r2}.js` Store adapters, `src/store/contract.js` `runStoreContract`
 - `src/types.js` shared typedefs
-- Skills live in `JakobMelchard/.agents` (`agents-sync`); nothing ships inside this package
+- Skills live in `JakobMelchard/.agents`, loaded from that checkout; nothing ships inside this package
 - `templates/hx-app/`, `.devcontainer/` consumer scaffold
 - `SPEC.md` design, `PROMPTS.md` roadmap as one PR per prompt
 
