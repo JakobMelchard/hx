@@ -26,8 +26,7 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 - `src/transport.js` htmx 4 in-page `ctx.fetch` override, the Android seam
 - `src/store/{memory,fs,kv,r2,saf}.js` Store adapters, `src/store/contract.js` `runStoreContract`
 - `src/types.js` shared typedefs
-- Org rules and skills live in `JakobMelchard/.agents`, loaded from the checkout,
-  not vendored; nothing ships inside this package
+- Skills live in `JakobMelchard/.agents`, loaded from that checkout; nothing ships inside this package
 - `.config/tsconfig.base.json`, `.editorconfig`, `.gitleaks.toml` vendored from
   `JakobMelchard/.config` by `config-sync`; `tsconfig.json` only adds `include`
 - `.devcontainer/` this repo's dev environment. The consumer scaffold is the
