@@ -24,10 +24,11 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 - `src/html.js` tagged template with escaping, `Raw` opt-out
 - `src/tags.js` `match()`
 - `src/transport.js` htmx 4 in-page `ctx.fetch` override, the Android seam
-- `src/store/{memory,fs,r2}.js` Store adapters, `src/store/contract.js` `runStoreContract`
+- `src/store/{memory,fs,kv,r2,saf}.js` Store adapters, `src/store/contract.js` `runStoreContract`
 - `src/types.js` shared typedefs
 - Skills live in `JakobMelchard/.agents` (`agents-sync`); nothing ships inside this package
-- `templates/hx-app/`, `.devcontainer/` consumer scaffold
+- `.devcontainer/` this repo's dev environment. The consumer scaffold is the
+  `hx-app` template in `JakobMelchard/.devcontainer`
 - `SPEC.md` design, `PROMPTS.md` roadmap as one PR per prompt
 
 ## Invariants
