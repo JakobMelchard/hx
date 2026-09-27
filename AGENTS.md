@@ -2,6 +2,7 @@
 
 Distributed as an npm package (`@jakobmelchard/hx`), consumed by the repos in
 `consumers.json`. JSDoc only, no TypeScript syntax; `tsc --checkJs` is the type gate.
+Org rules: `.agents/AGENTS.org.md`.
 
 ## Commands
 
@@ -26,7 +27,8 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 - `src/transport.js` htmx 4 in-page `ctx.fetch` override, the Android seam
 - `src/store/{memory,fs,kv,r2,saf}.js` Store adapters, `src/store/contract.js` `runStoreContract`
 - `src/types.js` shared typedefs
-- Skills live in `JakobMelchard/.agents` (`agents-sync`); nothing ships inside this package
+- `.agents/` org rules (`AGENTS.org.md`) and skills, copied from `JakobMelchard/.agents` by
+  `agents-sync`; nothing ships inside this package
 - `.config/tsconfig.base.json`, `.editorconfig`, `.gitleaks.toml` vendored from
   `JakobMelchard/.config` by `config-sync`; `tsconfig.json` only adds `include`
 - `.devcontainer/` this repo's dev environment. The consumer scaffold is the
