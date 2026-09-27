@@ -1,8 +1,4 @@
 {
-  "compilerOptions": {
-    "allowJs": true, "checkJs": true, "noEmit": true, "strict": true,
-    "module": "nodenext", "target": "es2022", "lib": ["es2023", "dom", "dom.iterable"],
-    "types": ["node"], "skipLibCheck": true
-  },
+  "extends": "./.config/tsconfig.base.json",
   "include": ["src", "test"]
 }
