@@ -6,7 +6,7 @@
     "ghcr.io/jakobmelchard/devcontainer/hx-app:1": {},
     "ghcr.io/devcontainers/features/java:1": { "version": "21" }
   },
-  "postCreateCommand": "npm ci && hooks-install",
+  "postCreateCommand": "npm ci && (prek install || echo 'prek missing: brew install prek')",
   "customizations": {
     "codespaces": {
       "openFiles": ["SPEC.md"],

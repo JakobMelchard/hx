@@ -96,7 +96,7 @@ core/
       consumers-e2e.yml   # matrix over consumer repos @ core PR sha  ← closes the loop
     actions/              # composite
       cache-gradle/ syncthing-fixture/
-  .githooks/              # pre-commit.local only; shared dispatcher lives in JakobMelchard/.github
+  .pre-commit-config.yaml  # prek: JakobMelchard/.githooks pinned by tag, plus local tsc + test
   devcontainer/
     features/hx-app/      # node, wrangler, jdk, android sdk cmdline-tools; published to GHCR (devcontainers/action)
     templates/hx-app/
