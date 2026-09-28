@@ -7,7 +7,7 @@ Distributed as an npm package (`@jakobmelchard/hx`), consumed by the repos in
 
 ```sh
 npm ci
-npx tsc          # type gate, also run by .githooks/pre-commit.local
+npx tsc          # type gate, also run by the local tsc hook
 npm test         # node:test, test/*.test.js
 npm run e2e      # test/e2e/*.test.js, needs Chromium
 ```
@@ -53,8 +53,8 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 - `consumers-e2e.yml` checks out every repo in `consumers.json`, installs hx at the
   PR sha, runs that consumer's full suite. It cannot call the shared `node.yml`,
   which only builds its own caller's checkout.
-- Hooks are vendored from `JakobMelchard/.githooks` (`hooks-install`). `.githooks/pre-commit.local` adds tsc and
-  tests locally, because a broken export reaches consumers before their CI runs.
+- Hooks: prek from `.pre-commit-config.yaml` (`JakobMelchard/.githooks` pinned by tag, Renovate bumps it) plus
+  local `tsc` and `test` hooks: hx is a dependency, so a broken export must fail before it reaches consumers.
 
 ## Gotchas
 

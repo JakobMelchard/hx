@@ -14,3 +14,9 @@ jobs:
     uses: ./.github/workflows/consumers-e2e.yml
     with: { hx-ref: '${{ github.event.pull_request.head.sha || github.sha }}' }
     secrets: inherit
+
+  hooks:
+    uses: JakobMelchard/.github/.github/workflows/hooks.yml@main
+    with:
+      # tsc and npm test run in the self job above
+      skip: tsc,test
