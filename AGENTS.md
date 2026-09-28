@@ -27,8 +27,8 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 - `src/store/{memory,fs,kv,r2,saf}.js` Store adapters, `src/store/contract.js` `runStoreContract`
 - `src/types.js` shared typedefs
 - Skills live in `JakobMelchard/.agents`, loaded from that checkout; nothing ships inside this package
-- `.config/tsconfig.base.json`, `.editorconfig`, `.gitleaks.toml` vendored from
-  `JakobMelchard/.config` by `config-sync`; `tsconfig.json` only adds `include`
+- `tsconfig.json` extends `@jakobmelchard/config/tsconfig` (the `JakobMelchard/.config` package, pinned
+  to a tag in `package.json`) and only adds `include`; `.editorconfig`, `.gitleaks.toml` are copied by `config-sync`
 - `.devcontainer/` this repo's dev environment. The consumer scaffold is the
   `hx-app` template in `JakobMelchard/.devcontainer`
 - `SPEC.md` design, `PROMPTS.md` roadmap as one PR per prompt
