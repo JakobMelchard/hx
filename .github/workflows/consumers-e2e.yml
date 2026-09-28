@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs: { matrix: '${{ steps.m.outputs.matrix }}' }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       # `name` is the bare repo, which create-github-app-token wants; GitHub
       # expressions have no split(), so derive it here rather than in the job.
       - id: m
@@ -37,12 +37,12 @@ jobs:
           repositories: ${{ matrix.consumer.name }}
           permission-contents: read
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           repository: '${{ matrix.consumer.repo }}'
           ref: '${{ matrix.consumer.ref }}'
           token: '${{ steps.app.outputs.token || secrets.CONSUMERS_TOKEN || github.token }}'
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with: { node-version: '22' }
       # Consumers are checked out from another repo, so this cannot call the
       # shared node.yml — that workflow builds its own caller's checkout.
