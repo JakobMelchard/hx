@@ -24,7 +24,8 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 - `src/html.js` tagged template with escaping, `Raw` opt-out
 - `src/tags.js` `match()`
 - `src/transport.js` htmx 4 in-page `ctx.fetch` override, the Android seam
-- `src/store/{memory,fs,kv,r2,saf}.js` Store adapters, `src/store/contract.js` `runStoreContract`
+- `src/node.js` `nodeListener(handle, env, {assets})` for `node:http`: fixed asset map, handler errors become 500
+- `src/store/{memory,fs,kv,r2,saf}.js` Store adapters, `src/store/contract.js` `runStoreContract`, `src/store/conflict.js` `isConflict` (import-free, Workers-safe)
 - `src/types.js` shared typedefs
 - Skills live in `JakobMelchard/.agents`, loaded from that checkout; nothing ships inside this package
 - `tsconfig.json` extends `@jakobmelchard/config/tsconfig` (the `JakobMelchard/.config` package, pinned
