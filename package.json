@@ -1,6 +1,6 @@
 {
   "name": "@jakobmelchard/hx",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -36,6 +36,10 @@
       "types": "./types/store/r2.d.ts",
       "default": "./src/store/r2.js"
     },
+    "./store/conflict": {
+      "types": "./types/store/conflict.d.ts",
+      "default": "./src/store/conflict.js"
+    },
     "./store/contract": {
       "types": "./types/store/contract.d.ts",
       "default": "./src/store/contract.js"
@@ -43,6 +47,10 @@
     "./store/saf": {
       "types": "./types/store/saf.d.ts",
       "default": "./src/store/saf.js"
+    },
+    "./node": {
+      "types": "./types/node.d.ts",
+      "default": "./src/node.js"
     },
     "./types": {
       "types": "./types/types.d.ts",
