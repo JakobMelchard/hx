@@ -11,9 +11,11 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
       # `name` is the bare repo, which create-github-app-token wants; GitHub
       # expressions have no split(), so derive it here rather than in the job.
+      # `e2e` is the consumer's own command; interviews has to build its Python
+      # server before Playwright can drive it.
       - id: m
         run: |
-          echo "matrix=$(jq -c '[.[] | . + {name: (.repo | split("/") | .[1])}]' consumers.json)" >> "$GITHUB_OUTPUT"
+          echo "matrix=$(jq -c '[.[] | {e2e: "npm run e2e"} + . + {name: (.repo | split("/") | .[1])}]' consumers.json)" >> "$GITHUB_OUTPUT"
   run:
     needs: load
     strategy: { fail-fast: false, matrix: { consumer: '${{ fromJSON(needs.load.outputs.matrix) }}' } }
@@ -48,4 +50,4 @@ jobs:
       # shared node.yml — that workflow builds its own caller's checkout.
       - run: npm install && npm i --no-save "github:JakobMelchard/hx#${{ inputs.hx-ref }}"
       - run: npx playwright-core install --with-deps chromium
-      - run: npx tsc && npm test && npm run e2e
+      - run: npx tsc && npm test && ${{ matrix.consumer.e2e }}
