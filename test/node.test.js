@@ -14,9 +14,13 @@ test('nodeListener: routes, form bodies, assets, errors', async t => {
     ['GET', '/s/:id', c => `get ${c.params.id}`],
     ['POST', '/s/:id', c => `post ${c.form.get('a')}`],
     ['GET', '/boom', () => { throw new Error('boom') }],
+    ['GET', '/cookies', () => { const h = new Headers(); h.append('set-cookie', 'a=1'); h.append('set-cookie', 'b=2'); return new Response('ok', { headers: h }) }],
   ])
   /** @type {Record<string, [URL, Record<string,string>]>} */
-  const assets = { '/a.txt': [new URL('../package.json', import.meta.url), { 'content-type': 'application/json' }] }
+  const assets = {
+    '/a.txt': [new URL('../package.json', import.meta.url), { 'content-type': 'application/json' }],
+    '/gone.txt': [new URL('../does-not-exist', import.meta.url), { 'content-type': 'text/plain' }],
+  }
   const server = createServer(nodeListener(handle, env, { assets }))
   await new Promise(r => server.listen(0, '127.0.0.1', () => r(undefined)))
   t.after(() => server.close())
@@ -38,6 +42,8 @@ test('nodeListener: routes, form bodies, assets, errors', async t => {
   const b = await fetch(`${base}/boom`)
   assert.equal(b.status, 500)
   assert.equal((await fetch(`${base}/s/2`)).status, 200, 'server survives a throwing handler')
+  assert.equal((await fetch(`${base}/gone.txt`)).status, 500, 'missing asset is a 500, not a crash')
+  assert.deepEqual((await fetch(`${base}/cookies`)).headers.getSetCookie(), ['a=1', 'b=2'])
 })
 
 test('store/conflict is Workers-safe and matches contract re-export', async () => {
