@@ -9,7 +9,7 @@ Library for minimal htmx 4 + JSDoc apps that run as Node server, Cloudflare Work
 - Types: JSDoc only; `prepare` emits `.d.ts` into `types/` (gitignored) so consumers can run `tsc --strict`. Bump the version and tag when `src/` changes — consumers pin a tag (`npm i github:JakobMelchard/hx#v<x.y.z>`).
 - Design: `SPEC.md` · roadmap prompts: `PROMPTS.md`
 
-Status: P1, P2, P5 (R2 store, lift Workers target), P6 (SAF store, lift Android target), core of P7/P8 done.
+Status: P1, P2, P5 (R2 store, lift Workers target), P6 (SAF store, lift Android target), core of P7/P8 done. lift is the reference consumer, repo `JakobMelchard/workouts-hx`.
 
 ```
 npm ci && npx tsc && npm test && npm run e2e   # e2e: CHROMIUM_PATH=/path/to/chrome if needed

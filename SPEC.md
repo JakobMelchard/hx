@@ -108,7 +108,7 @@ core/
   consumers.json          # [{repo, ref, e2e:"npm run e2e"}]
 ```
 
-Consumer (`lift`) contains only: `src/handlers/*.js`, `src/views/*.js`, `data/` fixtures, `e2e/`, thin workflow files calling `JakobMelchard/.github/.github/workflows/node.yml@main`, `.devcontainer/devcontainer.json` referencing the feature, `.githooks` → shared hooks from `JakobMelchard/.github`, `.agents/skills` → synced from core (copy on `upgrade-core`, not symlink — agents in sandboxes don't follow external links).
+Consumer (`lift`, repo `JakobMelchard/workouts-hx`) contains only: `src/handlers/*.js`, `src/views/*.js`, `data/` fixtures, `e2e/`, thin workflow files calling `JakobMelchard/.github/.github/workflows/node.yml@main`, `.devcontainer/devcontainer.json` referencing the feature, `.githooks` → shared hooks from `JakobMelchard/.github`, `.agents/skills` → synced from core (copy on `upgrade-core`, not symlink — agents in sandboxes don't follow external links).
 
 ## 5. Self-improving loop
 
