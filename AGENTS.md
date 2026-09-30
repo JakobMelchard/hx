@@ -51,8 +51,10 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 
 - `ci.yml` calls the shared `JakobMelchard/.github` `node.yml`, then `consumers-e2e.yml`.
 - `consumers-e2e.yml` checks out every repo in `consumers.json`, installs hx at the
-  PR sha, runs that consumer's full suite. It cannot call the shared `node.yml`,
-  which only builds its own caller's checkout.
+  PR sha, runs that consumer's full suite: `npx tsc && npm test`, then the entry's
+  `e2e` command (`npm run e2e` unless set; interviews builds its Python server
+  first). It cannot call the shared `node.yml`, which only builds its own caller's
+  checkout.
 - Hooks: prek from `.pre-commit-config.yaml` (`JakobMelchard/.githooks` pinned by tag, Renovate bumps it) plus
   local `tsc` and `test` hooks: hx is a dependency, so a broken export must fail before it reaches consumers.
 

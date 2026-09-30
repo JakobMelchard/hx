@@ -1,1 +1,9 @@
-[{ "repo": "JakobMelchard/workouts-hx", "ref": "main" }, { "repo": "JakobMelchard/lists", "ref": "main" }]
+[
+  { "repo": "JakobMelchard/workouts-hx", "ref": "main" },
+  { "repo": "JakobMelchard/lists", "ref": "main" },
+  {
+    "repo": "JakobMelchard/interviews",
+    "ref": "main",
+    "e2e": "pipx install uv && uv sync --extra dev && npm run test:e2e"
+  }
+]
