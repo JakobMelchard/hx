@@ -61,5 +61,5 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 - `SPEC.md` section 4 is aspirational and does not match the tree. It describes
   `packages/hx/` and an `@hx/hx` package name; the real layout is flat `src/` with
   subpath exports from `@jakobmelchard/hx`. Trust the tree, not the spec, for layout.
-- `SPEC.md` is titled for `lift` because hx was extracted from it. It is still the
-  design document for both.
+- `SPEC.md` is titled for `lift` (repo `JakobMelchard/workouts-hx`) because hx was
+  extracted from it. It is still the design document for both.
