@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 
-export const isConflict = (/** @type {string} */ k) => k.includes('.sync-conflict-')
+export { isConflict } from './conflict.js'
 
 /** Every Store adapter must pass this. @param {string} name @param {() => Promise<import('../types.js').Store>} mk */
 export const runStoreContract = (name, mk) => test(`store contract: ${name}`, async t => {

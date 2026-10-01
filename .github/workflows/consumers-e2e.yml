@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs: { matrix: '${{ steps.m.outputs.matrix }}' }
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       # `name` is the bare repo, which create-github-app-token wants; GitHub
       # expressions have no split(), so derive it here rather than in the job.
       # `e2e` is the consumer's own command; interviews has to build its Python
@@ -39,13 +39,13 @@ jobs:
           repositories: ${{ matrix.consumer.name }}
           permission-contents: read
 
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           repository: '${{ matrix.consumer.repo }}'
           ref: '${{ matrix.consumer.ref }}'
           token: '${{ steps.app.outputs.token || secrets.CONSUMERS_TOKEN || github.token }}'
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
-        with: { node-version: '22' }
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with: { node-version: '24' }
       # Consumers are checked out from another repo, so this cannot call the
       # shared node.yml — that workflow builds its own caller's checkout.
       - run: npm install && npm i --no-save "github:JakobMelchard/hx#${{ inputs.hx-ref }}"

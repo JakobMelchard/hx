@@ -1,6 +1,6 @@
 {
   "name": "@jakobmelchard/hx",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "license": "MIT",
   "type": "module",
   "exports": {
@@ -36,6 +36,10 @@
       "types": "./types/store/r2.d.ts",
       "default": "./src/store/r2.js"
     },
+    "./store/conflict": {
+      "types": "./types/store/conflict.d.ts",
+      "default": "./src/store/conflict.js"
+    },
     "./store/contract": {
       "types": "./types/store/contract.d.ts",
       "default": "./src/store/contract.js"
@@ -43,6 +47,10 @@
     "./store/saf": {
       "types": "./types/store/saf.d.ts",
       "default": "./src/store/saf.js"
+    },
+    "./node": {
+      "types": "./types/node.d.ts",
+      "default": "./src/node.js"
     },
     "./types": {
       "types": "./types/types.d.ts",
@@ -60,8 +68,8 @@
     "e2e": "node --test \"test/e2e/*.test.js\""
   },
   "devDependencies": {
-    "@jakobmelchard/config": "github:JakobMelchard/.config#v1.0.0",
-    "@types/node": "22.20.3",
+    "@jakobmelchard/config": "github:JakobMelchard/.config#v1.1.0",
+    "@types/node": "24.19.0",
     "htmx.org": "4.0.0",
     "playwright-core": "1.63.0",
     "typescript": "7.0.2"
