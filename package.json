@@ -69,7 +69,7 @@
   },
   "devDependencies": {
     "@jakobmelchard/config": "github:JakobMelchard/.config#v1.0.0",
-    "@types/node": "22.20.4",
+    "@types/node": "24.19.0",
     "htmx.org": "4.0.0",
     "playwright-core": "1.63.0",
     "typescript": "5.9.3"
