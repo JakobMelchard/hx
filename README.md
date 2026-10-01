@@ -6,7 +6,7 @@ Library for minimal htmx 4 + JSDoc apps that run as Node server, Cloudflare Work
 - CI: calls the shared `JakobMelchard/.github` `node.yml`. `consumers-e2e.yml` runs every repo in `consumers.json` against an hx sha, checking private consumers out with a melchbot token
 - Hooks: prek, `.pre-commit-config.yaml` pinning `JakobMelchard/.githooks` plus local tsc + test hooks (`brew install prek && prek install`)
 - Devcontainer: `hx-app` template from `JakobMelchard/.devcontainer` · skills (`new-hx-app`, `promote-pattern`, `upgrade-hx`, `add-store-adapter`) from `JakobMelchard/.agents`
-- Types: JSDoc only; `prepare` emits `.d.ts` into `types/` (gitignored) so consumers can run `tsc --strict`. Bump the version and tag when `src/` changes — consumers pin a tag (`npm i github:JakobMelchard/hx#v<x.y.z>`).
+- Types: JSDoc only; `prepare` emits `.d.ts` into `types/` (gitignored) so consumers can run `tsc --strict`. Bump the version and push the tag `v<x.y.z>` when `src/` changes; the publish workflow puts it on npmjs.org (`npm i @jakobmelchard/hx`).
 - Design: `SPEC.md` · roadmap prompts: `PROMPTS.md`
 
 Status: P1, P2, P5 (R2 store, lift Workers target), P6 (SAF store, lift Android target), core of P7/P8 done. lift is the reference consumer, repo `JakobMelchard/workouts-hx`.
