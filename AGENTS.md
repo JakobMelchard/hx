@@ -41,8 +41,9 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 - No speculative abstraction. Core does not merge a feature without at least one
   real consumer using it. Promote when a pattern exists in two consumers, or is a
   Store, transport, or CI seam.
-- Consumers pin tags. Nothing references hx `main`. Bump `version` and tag when
-  `src/` changes, or consumers cannot pick the change up.
+- Consumers install released versions from npmjs.org. Nothing references hx `main`.
+  Bump `version` and push the tag `v<version>` when `src/` changes;
+  `.github/workflows/publish.yml` publishes it, or consumers cannot pick the change up.
 - `matchPath` is a split-segment matcher, deliberately not `URLPattern`: Android
   WebView support varies. Do not "modernise" it.
 - Types are emitted, not written. `prepare` runs `tsc -p tsconfig.build.json` into
