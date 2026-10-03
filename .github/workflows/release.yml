@@ -17,3 +17,6 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      # For JakobMelchard/.github#81 (app credentials from Infisical over OIDC); keep
+      # the secrets above until that lands.
+      id-token: write
