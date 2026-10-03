@@ -8,15 +8,10 @@ jobs:
   release-please:
     uses: JakobMelchard/.github/.github/workflows/release.yml@main
     # melchbot authors the release PR and creates the tag: tags made with github.token
-    # would not trigger publish.yml.
-    secrets:
-      app-client-id: ${{ secrets.APP_CLIENT_ID }}
-      app-private-key: ${{ secrets.APP_PRIVATE_KEY }}
+    # would not trigger publish.yml. Its credentials come from Infisical over OIDC.
     # A called workflow cannot be granted more than the caller holds; without
     # this the run fails at startup before any step executes.
     permissions:
       contents: write
       pull-requests: write
-      # For JakobMelchard/.github#81 (app credentials from Infisical over OIDC); keep
-      # the secrets above until that lands.
       id-token: write
