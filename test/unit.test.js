@@ -1,7 +1,7 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { match } from '../src/tags.js'
-import { html, raw } from '../src/html.js'
+import { html, raw, esc } from '../src/html.js'
 import { router } from '../src/handle.js'
 import { memoryStore } from '../src/store/memory.js'
 
@@ -13,6 +13,11 @@ test('tags.match', () => {
 
 test('html escapes, nests, raw opt-out', () => {
   assert.equal(String(html`<p>${'<b>'}${[html`<i>${'&'}</i>`]}${raw('<br>')}${null}${false}${0}</p>`), '<p>&#60;b&#62;<i>&#38;</i><br>0</p>')
+})
+
+test('esc escapes quotes too', () => {
+  assert.equal(esc(`"a" 'b'`), '&#34;a&#34; &#39;b&#39;')
+  assert.equal(String(html`<input value="${`"x"`}">`), '<input value="&#34;x&#34;">')
 })
 
 test('router', async () => {
