@@ -33,6 +33,10 @@ test('nodeListener: routes, form bodies, assets, errors', async t => {
   assert.equal(await g.text(), 'get a b')
   assert.match(g.headers.get('content-type') ?? '', /text\/html/)
   assert.equal(await (await fetch(`${base}/s/1`, { method: 'POST', body: new URLSearchParams({ a: 'z' }) })).text(), 'post z')
+  const from = (/** @type {string} */ origin) => fetch(`${base}/s/1`, { method: 'POST', headers: { origin }, body: new URLSearchParams({ a: 'z' }) })
+  assert.equal((await from(base)).status, 200, 'own origin, host with port')
+  assert.equal((await from('http://other.test')).status, 403)
+  assert.equal((await fetch(`${base}/s/%zz`)).status, 400)
 
   const a = await fetch(`${base}/a.txt`)
   assert.equal(a.headers.get('content-type'), 'application/json')

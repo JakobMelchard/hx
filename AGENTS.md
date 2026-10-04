@@ -47,6 +47,11 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
   changes produce a release, or consumers cannot pick the change up.
 - `matchPath` is a split-segment matcher, deliberately not `URLPattern`: Android
   WebView support varies. Do not "modernise" it.
+- The router answers before any route runs: 400 for a path with a malformed escape, 403 for a
+  non-GET/HEAD request the browser marks `Sec-Fetch-Site: cross-site`, or, without that header,
+  whose `Origin` host is not the request host. Requests with neither header pass (curl, tests,
+  the in-page transport). A param is one segment: a value decoding to contain `/` or `\` is no match.
+- `fsStore` keys never leave the root: `get` null, `list` empty, `put` and `del` reject.
 - Types are emitted, not written. `prepare` runs `tsc -p tsconfig.build.json` into
   `types/` (gitignored) so consumers can run `tsc --strict`.
 
