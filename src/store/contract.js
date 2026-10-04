@@ -25,4 +25,11 @@ export const runStoreContract = (name, mk) => test(`store contract: ${name}`, as
     const s = await mk(); await s.put('d.json', '1'); await s.del('d.json'); await s.del('d.json')
     assert.equal(await s.get('d.json'), null)
   })
+  // Flat keyspaces keep `..` as plain text, path-backed ones refuse the key. Neither may store it where list cannot see it.
+  await t.test('.. in a key: refused, or kept as an ordinary key', async () => {
+    const s = await mk(), k = '../up.json'
+    const kept = await s.put(k, '1').then(() => true, () => false)
+    assert.deepEqual(await s.list(''), kept ? [k] : [])
+    assert.equal(await s.get(k), kept ? '1' : null)
+  })
 })
