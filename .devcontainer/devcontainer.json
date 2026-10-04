@@ -1,6 +1,6 @@
 {
   "name": "hx",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:26",
   "features": {
     "ghcr.io/jakobmelchard/devcontainer/ws:1": {},
     "ghcr.io/jakobmelchard/devcontainer/hx-app:1": {},
