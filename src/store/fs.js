@@ -3,7 +3,8 @@ import { dirname, join, relative, resolve, sep } from 'node:path'
 
 /**
  * Keys are paths under `root`. A key that resolves outside it reads as absent (`get` null,
- * `list` empty) and makes `put` and `del` reject.
+ * `list` empty) and makes `put` and `del` reject. The check is on the path: a symlink placed
+ * under `root` is followed, as it is whoever owns the directory that put it there.
  * @param {string} root @returns {import('../types.js').Store}
  */
 export const fsStore = root => {

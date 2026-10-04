@@ -24,7 +24,7 @@ export const router = routes => async (req, env) => {
   // (plain http off localhost) Origin must name the request host. Callers that send neither
   // (curl, tests, the in-page transport) pass.
   const site = req.headers.get('sec-fetch-site'), origin = req.headers.get('origin')
-  if (!/GET|HEAD/.test(req.method) && (site ? site === 'cross-site' : origin !== null && origin.split('://')[1] !== url.host))
+  if (!/^(GET|HEAD)$/.test(req.method) && (site ? site === 'cross-site' : origin !== null && origin.split('://')[1] !== url.host))
     return new Response('cross-site request', { status: 403 })
   let allowed = false
   for (const [m, pat, fn] of routes) {

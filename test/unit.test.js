@@ -69,4 +69,7 @@ test('router: writes from another site are 403', async () => {
     assert.equal((await send('DELETE', headers)).status, want, JSON.stringify(headers))
     assert.equal((await send('GET', headers)).status, 200, JSON.stringify(headers))
   }
+  // only GET and HEAD themselves are exempt, not a method that contains them
+  const forget = router([['FORGET', '/s', () => 'ok']])
+  assert.equal((await forget(new Request('http://app.test/s', { method: 'FORGET', headers: { 'sec-fetch-site': 'cross-site' } }), env)).status, 403)
 })
