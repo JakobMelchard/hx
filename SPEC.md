@@ -4,14 +4,14 @@ Replaces Go+HTMX `Health`. First consumer of `core` platform.
 
 ## 0. Decisions (fixed)
 
-| Topic | Decision | Why |
-|---|---|---|
-| UI | htmx **4.0** (released 2026-08-28, npm tag `next`), vanilla JS, JSDoc + `tsc --checkJs` | v4 is fetch-based; transport override = replace `ctx.fetch` in `htmx:config:request` (~20 LOC). v2 needs XHR hacks. Pin exact version. |
-| Server contract | One fn: `handle(req: Request, env: Env) => Promise<Response>` | Web-standard `Request/Response` runs unchanged in Workers, Node ≥18/Bun, and in-page on Android. |
-| Storage | Local-first flat JSON files, Syncthing-synced | Existing flow. |
-| Targets | 3 adapters, 1 handler | see §3 |
-| Android sync | Syncthing-Fork (`researchxxl/syncthing-android`); official app discontinued | forum.syncthing.net |
-| Android FS | SAF tree URI (user picks folder once, persisted). **Not** `MANAGE_EXTERNAL_STORAGE` (Play rejects), **not** `Download/` or storage root (SAF refuses grant) | capawesome.io scoped-storage article |
+| Topic           | Decision                                                                                                                                                    | Why                                                                                                                                    |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| UI              | htmx **4.0** (released 2026-08-28, npm tag `next`), vanilla JS, JSDoc + `tsc --checkJs`                                                                     | v4 is fetch-based; transport override = replace `ctx.fetch` in `htmx:config:request` (~20 LOC). v2 needs XHR hacks. Pin exact version. |
+| Server contract | One fn: `handle(req: Request, env: Env) => Promise<Response>`                                                                                               | Web-standard `Request/Response` runs unchanged in Workers, Node ≥18/Bun, and in-page on Android.                                       |
+| Storage         | Local-first flat JSON files, Syncthing-synced                                                                                                               | Existing flow.                                                                                                                         |
+| Targets         | 3 adapters, 1 handler                                                                                                                                       | see §3                                                                                                                                 |
+| Android sync    | Syncthing-Fork (`researchxxl/syncthing-android`); official app discontinued                                                                                 | forum.syncthing.net                                                                                                                    |
+| Android FS      | SAF tree URI (user picks folder once, persisted). **Not** `MANAGE_EXTERNAL_STORAGE` (Play rejects), **not** `Download/` or storage root (SAF refuses grant) | capawesome.io scoped-storage article                                                                                                   |
 
 ## 1. Data (files are the DB)
 
@@ -33,6 +33,7 @@ data/
 ```
 
 Rules:
+
 - Session = one file, single writer (`device` in name) → Syncthing conflicts impossible by construction.
 - Exercises/routines edited by hand/git; app treats as read-mostly. Any `*.sync-conflict-*` file → banner, never auto-merge.
 - Week listing = `list("sessions/2026/W38/")` — no index, no scan of history.
@@ -50,14 +51,14 @@ Rules:
 
 Endpoints (all return HTML fragments; `/` returns full page):
 
-| Method | Path | Effect |
-|---|---|---|
-| GET | `/` | page |
-| GET | `/history?week=2026-W38&q=` | week fragment |
-| POST | `/sessions` `routine=` | create file, return card |
-| POST | `/sessions/:id/sets` `ex,reps,load,…` | append set, return card |
-| POST | `/sessions/:id/finish` | set `end`, return card moved to history (`<hx-partial>`) |
-| DELETE | `/sessions/:id/sets/:i` | undo |
+| Method | Path                                  | Effect                                                   |
+| ------ | ------------------------------------- | -------------------------------------------------------- |
+| GET    | `/`                                   | page                                                     |
+| GET    | `/history?week=2026-W38&q=`           | week fragment                                            |
+| POST   | `/sessions` `routine=`                | create file, return card                                 |
+| POST   | `/sessions/:id/sets` `ex,reps,load,…` | append set, return card                                  |
+| POST   | `/sessions/:id/finish`                | set `end`, return card moved to history (`<hx-partial>`) |
+| DELETE | `/sessions/:id/sets/:i`               | undo                                                     |
 
 No JSON API. No client state beyond htmx.
 
@@ -68,11 +69,11 @@ No JSON API. No client state beyond htmx.
 /** @typedef {{store:Store, device:string, now():Date}} Env */
 ```
 
-| Target | Entry | Store adapter | Transport |
-|---|---|---|---|
-| Desktop / Mac Mini | `node serve.js` (or `bun`) | `fs` on Syncthing folder | real HTTP |
-| Cloudflare Workers | `export default {fetch:(r,e)=>handle(r,mkEnv(e))}` | R2 (demo/e2e only — Workers can't join Syncthing) | real HTTP |
-| Android (Capacitor) | `index.html` + bundled `handle` | SAF tree URI plugin | in-page: `htmx:config:request` → `ctx.fetch = (u,i)=>handle(new Request(abs(u),i), env)` |
+| Target              | Entry                                              | Store adapter                                     | Transport                                                                                |
+| ------------------- | -------------------------------------------------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| Desktop / Mac Mini  | `node serve.js` (or `bun`)                         | `fs` on Syncthing folder                          | real HTTP                                                                                |
+| Cloudflare Workers  | `export default {fetch:(r,e)=>handle(r,mkEnv(e))}` | R2 (demo/e2e only — Workers can't join Syncthing) | real HTTP                                                                                |
+| Android (Capacitor) | `index.html` + bundled `handle`                    | SAF tree URI plugin                               | in-page: `htmx:config:request` → `ctx.fetch = (u,i)=>handle(new Request(abs(u),i), env)` |
 
 `Store` is the only platform seam. Contract test suite runs against all adapters (in-memory, fs, R2 via miniflare/wrangler, SAF via instrumented Android emulator run).
 
@@ -125,6 +126,7 @@ all green ─► merge ─► release tag vX.Y ─► Renovate/Dependabot PRs in
 ```
 
 Invariants:
+
 - Core never merges without ≥1 real consumer using the feature (no speculative abstractions).
 - Promotion criterion: pattern exists in ≥2 consumers, or is a `Store`/transport/CI seam.
 - Every core export has a contract test that consumers can import.

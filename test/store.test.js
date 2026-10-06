@@ -1,6 +1,6 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises'
+import { chmod, mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { runStoreContract } from '../src/store/contract.js'
@@ -12,7 +12,9 @@ runStoreContract('memory', async () => memoryStore())
 runStoreContract('fs', async () => fsStore(join(await mkdtemp(join(tmpdir(), 'store-')), 'data')))
 
 test('fs store: keys stay inside the root', async () => {
-  const dir = await mkdtemp(join(tmpdir(), 'store-')), out = join(dir, 'out.json'), sib = join(dir, 'data-old', 'x.json')
+  const dir = await mkdtemp(join(tmpdir(), 'store-')),
+    out = join(dir, 'out.json'),
+    sib = join(dir, 'data-old', 'x.json')
   await mkdir(join(dir, 'data-old'))
   for (const f of [out, sib]) await writeFile(f, 'keep')
   const s = fsStore(join(dir, 'data'))
@@ -23,9 +25,21 @@ test('fs store: keys stay inside the root', async () => {
     await assert.rejects(s.put(k, 'x'), /outside store root/, k)
     await assert.rejects(s.del(k), /outside store root/, k)
   }
-  for (const p of ['../', '../out', '../data-old/', 'a/../../']) assert.deepEqual(await s.list(p), [], p)
+  for (const p of ['../', '../out', '../data-old/', 'a/../../'])
+    assert.deepEqual(await s.list(p), [], p)
   for (const f of [out, sib]) assert.equal(await readFile(f, 'utf8'), 'keep')
   await s.put('a/..b.json', '2')
   assert.equal(await s.get('a/../in.json'), '1')
   assert.deepEqual(await s.list(''), ['a/..b.json', 'in.json'])
+})
+
+test('fs store: only a missing path is absent', { skip: process.getuid?.() === 0 }, async () => {
+  const dir = await mkdtemp(join(tmpdir(), 'store-')),
+    s = fsStore(dir)
+  await s.put('a.json', '1')
+  assert.equal(await s.get('a.json/b'), null)
+  assert.deepEqual(await s.list('a.json/'), [])
+  // skipped as root: permissions do not stop it
+  await chmod(join(dir, 'a.json'), 0)
+  await assert.rejects(s.get('a.json'), { code: 'EACCES' })
 })

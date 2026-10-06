@@ -9,7 +9,7 @@
  * when a write has to show up in a listing immediately.
  * @param {KVNamespace} ns @returns {import('../types.js').Store}
  */
-export const kvStore = ns => ({
+export const kvStore = (ns) => ({
   async list(p) {
     /** @type {string[]} */ const keys = []
     /** @type {string|undefined} */ let cursor
@@ -25,7 +25,7 @@ export const kvStore = ns => ({
     // adapters agree on ordering for non-ASCII keys.
     return keys.sort()
   },
-  get: k => ns.get(k),
+  get: (k) => ns.get(k),
   put: async (k, v) => void (await ns.put(k, v)),
-  del: async k => void (await ns.delete(k)),
+  del: async (k) => void (await ns.delete(k)),
 })

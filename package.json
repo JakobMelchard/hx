@@ -72,13 +72,22 @@
     "prepare": "tsc -p tsconfig.build.json",
     "check": "tsc",
     "test": "node --test \"test/*.test.js\"",
-    "e2e": "node --test \"test/e2e/*.test.js\""
+    "e2e": "node --test \"test/e2e/*.test.js\"",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "devDependencies": {
+    "@eslint/js": "10.0.1",
     "@jakobmelchard/config": "1.1.0",
     "@types/node": "24.19.1",
+    "eslint": "10.12.0",
+    "eslint-plugin-jsdoc": "65.1.0",
+    "globals": "17.13.0",
     "htmx.org": "4.0.0",
     "playwright-core": "1.63.0",
+    "prettier": "3.9.9",
     "typescript": "7.0.2"
-  }
+  },
+  "prettier": "@jakobmelchard/config/prettier"
 }

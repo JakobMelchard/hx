@@ -13,18 +13,28 @@ const fakeNamespace = (pageSize = 1000) => {
   return {
     /** @param {{prefix:string, cursor?:string}} o */
     async list(o) {
-      const all = [...m.keys()].filter(k => k.startsWith(o.prefix)).sort()
+      const all = [...m.keys()].filter((k) => k.startsWith(o.prefix)).sort()
       const start = o.cursor ? Number(o.cursor) : 0
       const end = start + pageSize
       const list_complete = end >= all.length
-      return { keys: all.slice(start, end).map(name => ({ name })), list_complete, cursor: list_complete ? undefined : String(end) }
+      return {
+        keys: all.slice(start, end).map((name) => ({ name })),
+        list_complete,
+        cursor: list_complete ? undefined : String(end),
+      }
     },
     /** @param {string} k */
-    async get(k) { return m.get(k) ?? null },
+    async get(k) {
+      return m.get(k) ?? null
+    },
     /** @param {string} k @param {string} v */
-    async put(k, v) { m.set(k, v) },
+    async put(k, v) {
+      m.set(k, v)
+    },
     /** @param {string} k */
-    async delete(k) { m.delete(k) },
+    async delete(k) {
+      m.delete(k)
+    },
   }
 }
 

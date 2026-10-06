@@ -26,8 +26,8 @@
  * @returns {import('../types.js').Store}
  */
 export const safStore = (plugin, treeUri) => ({
-  get: async path => (await plugin.readFile({ uri: treeUri, path })).data,
+  get: async (path) => (await plugin.readFile({ uri: treeUri, path })).data,
   put: (path, content) => plugin.writeFile({ uri: treeUri, path, content }),
-  list: async prefix => (await plugin.listFiles({ uri: treeUri, prefix })).files.sort(),
-  del: path => plugin.deleteFile({ uri: treeUri, path }),
+  list: async (prefix) => (await plugin.listFiles({ uri: treeUri, prefix })).files.sort(),
+  del: (path) => plugin.deleteFile({ uri: treeUri, path }),
 })

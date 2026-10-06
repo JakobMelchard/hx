@@ -5,15 +5,25 @@ import { safStore } from '../src/store/saf.js'
 const fakePlugin = () => {
   /** @type {Map<string,string>} */ const m = new Map()
   return {
-    async pickFolder() { return { uri: 'tree://fake' } },
+    async pickFolder() {
+      return { uri: 'tree://fake' }
+    },
     /** @param {{path:string}} o */
-    async readFile(o) { return { data: m.has(o.path) ? m.get(o.path) ?? null : null } },
+    async readFile(o) {
+      return { data: m.has(o.path) ? (m.get(o.path) ?? null) : null }
+    },
     /** @param {{path:string,content:string}} o */
-    async writeFile(o) { m.set(o.path, o.content) },
+    async writeFile(o) {
+      m.set(o.path, o.content)
+    },
     /** @param {{prefix:string}} o */
-    async listFiles(o) { return { files: [...m.keys()].filter(k => k.startsWith(o.prefix)) } },
+    async listFiles(o) {
+      return { files: [...m.keys()].filter((k) => k.startsWith(o.prefix)) }
+    },
     /** @param {{path:string}} o */
-    async deleteFile(o) { m.delete(o.path) },
+    async deleteFile(o) {
+      m.delete(o.path)
+    },
   }
 }
 
