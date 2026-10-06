@@ -13,18 +13,29 @@ const fakeBucket = (pageSize = 1000) => {
   return {
     /** @param {{prefix:string, cursor?:string}} o */
     async list(o) {
-      const all = [...m.keys()].filter(k => k.startsWith(o.prefix)).sort()
+      const all = [...m.keys()].filter((k) => k.startsWith(o.prefix)).sort()
       const start = o.cursor ? Number(o.cursor) : 0
       const end = start + pageSize
       const truncated = end < all.length
-      return { objects: all.slice(start, end).map(key => ({ key })), truncated, cursor: truncated ? String(end) : undefined }
+      return {
+        objects: all.slice(start, end).map((key) => ({ key })),
+        truncated,
+        cursor: truncated ? String(end) : undefined,
+      }
     },
     /** @param {string} k */
-    async get(k) { const v = m.get(k); return v === undefined ? null : { text: async () => v } },
+    async get(k) {
+      const v = m.get(k)
+      return v === undefined ? null : { text: async () => v }
+    },
     /** @param {string} k @param {string} v */
-    async put(k, v) { m.set(k, v) },
+    async put(k, v) {
+      m.set(k, v)
+    },
     /** @param {string} k */
-    async delete(k) { m.delete(k) },
+    async delete(k) {
+      m.delete(k)
+    },
   }
 }
 

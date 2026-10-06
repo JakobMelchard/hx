@@ -4,7 +4,7 @@
 /** @typedef {{list(opts:{prefix:string, cursor?:string}):Promise<R2Listing>, get(key:string):Promise<{text():Promise<string>}|null>, put(key:string, body:string):Promise<unknown>, delete(key:string):Promise<unknown>}} R2Bucket */
 
 /** @param {R2Bucket} bucket @returns {import('../types.js').Store} */
-export const r2Store = bucket => ({
+export const r2Store = (bucket) => ({
   async list(p) {
     /** @type {string[]} */ const keys = []
     /** @type {string|undefined} */ let cursor
@@ -20,7 +20,7 @@ export const r2Store = bucket => ({
     // three adapters agree on ordering for non-ASCII keys.
     return keys.sort()
   },
-  get: async k => (await bucket.get(k))?.text() ?? null,
+  get: async (k) => (await bucket.get(k))?.text() ?? null,
   put: async (k, v) => void (await bucket.put(k, v)),
-  del: async k => void (await bucket.delete(k)),
+  del: async (k) => void (await bucket.delete(k)),
 })

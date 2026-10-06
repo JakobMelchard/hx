@@ -6,7 +6,9 @@
  * @param {EventTarget} [target]
  */
 export const installLocalTransport = (handle, env, target = document) =>
-  target.addEventListener('htmx:config:request', e => {
-    /** @type {any} */ (e).detail.ctx.fetch = (/** @type {string} */ url, /** @type {RequestInit} */ init) =>
-      handle(new Request(new URL(url, location.href), init), env)
+  target.addEventListener('htmx:config:request', (e) => {
+    ;/** @type {any} */ (e).detail.ctx.fetch = (
+      /** @type {string} */ url,
+      /** @type {RequestInit} */ init,
+    ) => handle(new Request(new URL(url, location.href), init), env)
   })

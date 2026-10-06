@@ -8,6 +8,8 @@ Distributed as an npm package (`@jakobmelchard/hx`), consumed by the repos in
 ```sh
 npm ci
 npx tsc          # type gate, also run by the local tsc hook
+npm run lint     # eslint, org config from @jakobmelchard/config
+npm run format   # prettier, org config; CI runs format:check
 npm test         # node:test, test/*.test.js
 npm run e2e      # test/e2e/*.test.js, needs Chromium
 ```
@@ -57,7 +59,8 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 
 ## CI
 
-- `ci.yml` calls the shared `JakobMelchard/.github` `node.yml`, then `consumers-e2e.yml`.
+- `ci.yml` calls the shared `JakobMelchard/.github` `node.yml` (lint and format check, tsc, tests,
+  e2e), then `consumers-e2e.yml`. Shared workflows are pinned by sha; Renovate bumps them.
 - `consumers-e2e.yml` checks out every repo in `consumers.json`, installs hx at the
   PR sha, runs that consumer's full suite: `npx tsc && npm test`, then the entry's
   `e2e` command (`npm run e2e` unless set; interviews builds its Python server

@@ -18,7 +18,8 @@ jobs:
           echo "matrix=$(jq -c '[.[] | {e2e: "npm run e2e"} + . + {name: (.repo | split("/") | .[1])}]' consumers.json)" >> "$GITHUB_OUTPUT"
   run:
     needs: load
-    strategy: { fail-fast: false, matrix: { consumer: '${{ fromJSON(needs.load.outputs.matrix) }}' } }
+    strategy:
+      { fail-fast: false, matrix: { consumer: '${{ fromJSON(needs.load.outputs.matrix) }}' } }
     runs-on: ubuntu-latest
     steps:
       # github.token only reads this repo, so a private consumer 404s on
@@ -54,6 +55,8 @@ jobs:
         with: { node-version: '24' }
       # Consumers are checked out from another repo, so this cannot call the
       # shared node.yml — that workflow builds its own caller's checkout.
-      - run: npm install && npm i --no-save "github:JakobMelchard/hx#${{ inputs.hx-ref }}"
+      - run: npm install && npm i --no-save "github:JakobMelchard/hx#$HX_REF"
+        env: { HX_REF: '${{ inputs.hx-ref }}' }
       - run: npx playwright-core install --with-deps chromium
-      - run: npx tsc && npm test && ${{ matrix.consumer.e2e }}
+      - run: npx tsc && npm test && eval "$E2E"
+        env: { E2E: '${{ matrix.consumer.e2e }}' }

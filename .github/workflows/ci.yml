@@ -2,9 +2,9 @@ name: ci
 on: { push: { branches: [main] }, pull_request: {} }
 jobs:
   self:
-    uses: JakobMelchard/.github/.github/workflows/node.yml@main
+    uses: JakobMelchard/.github/.github/workflows/node.yml@bfaa9063ee9c867b43abdad960504803ac847aa0 # v1.3.0
     with:
-      lint-cmd: ""
+      lint-cmd: npm run --silent lint && npm run --silent format:check
       check-cmd: npx tsc
       test-cmd: npm test
       e2e-cmd: npm run e2e
@@ -16,7 +16,7 @@ jobs:
     permissions: { contents: read, id-token: write }
 
   hooks:
-    uses: JakobMelchard/.github/.github/workflows/hooks.yml@main
+    uses: JakobMelchard/.github/.github/workflows/hooks.yml@bfaa9063ee9c867b43abdad960504803ac847aa0 # v1.3.0
     with:
       # tsc and npm test run in the self job above
       skip: tsc,test
