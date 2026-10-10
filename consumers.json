@@ -1,7 +1,0 @@
-[
-  {
-    "repo": "JakobMelchard/interviews",
-    "ref": "main",
-    "e2e": "pipx install uv && uv sync --extra dev && npm run test:e2e"
-  }
-]

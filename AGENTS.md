@@ -1,7 +1,6 @@
 # hx — htmx 4 platform for Node, Workers, and in-page apps
 
-Distributed as an npm package (`@jakobmelchard/hx`), consumed by the repos in
-`consumers.json`. JSDoc only, no TypeScript syntax; `tsc --checkJs` is the type gate.
+Distributed as an npm package (`@jakobmelchard/hx`). JSDoc only, no TypeScript syntax; `tsc --checkJs` is the type gate.
 
 ## Commands
 
@@ -59,14 +58,11 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 ## CI
 
 - `ci.yml` calls the shared `JakobMelchard/.github` `node.yml` (lint and format check, tsc, tests,
-  e2e), then `consumers-e2e.yml`. Shared workflows are pinned by sha; Renovate bumps them.
-- `consumers-e2e.yml` checks out every repo in `consumers.json`, installs hx at the
-  PR sha, runs that consumer's full suite: `npx tsc && npm test`, then the entry's
-  `e2e` command (`npm run e2e` unless set; a consumer may build its own server
-  first). It cannot call the shared `node.yml`, which only builds its own caller's
-  checkout.
+  e2e). Shared workflows are pinned by sha; Renovate bumps them.
+- There is no consumer matrix in CI. Consumers pin released versions and test them in their own
+  CI when Renovate bumps hx.
 - Hooks: prek from `.pre-commit-config.yaml` (`JakobMelchard/.githooks` pinned by tag, Renovate bumps it) plus
-  local `tsc` and `test` hooks: hx is a dependency, so a broken export must fail before it reaches consumers.
+  local `tsc` and `test` hooks: hx is a dependency, so a broken export must fail before it is released.
 
 ## Gotchas
 

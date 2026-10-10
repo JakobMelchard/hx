@@ -9,11 +9,6 @@ jobs:
       test-cmd: npm test
       e2e-cmd: npm run e2e
       browsers: true
-  consumers:
-    needs: self
-    uses: ./.github/workflows/consumers-e2e.yml
-    with: { hx-ref: '${{ github.event.pull_request.head.sha || github.sha }}' }
-    permissions: { contents: read, id-token: write }
 
   hooks:
     uses: JakobMelchard/.github/.github/workflows/hooks.yml@bfaa9063ee9c867b43abdad960504803ac847aa0 # v1.3.0
