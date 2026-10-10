@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.4](https://github.com/JakobMelchard/hx/compare/v0.4.3...v0.4.4) (2026-10-10)
+
+
+### Bug Fixes
+
+* public README without internal repo names ([#51](https://github.com/JakobMelchard/hx/issues/51)) ([e6f5388](https://github.com/JakobMelchard/hx/commit/e6f538822596960791cebc457561fc5c4d190d7c))
+
 ## [0.4.3](https://github.com/JakobMelchard/hx/compare/v0.4.2...v0.4.3) (2026-10-06)
 
 
