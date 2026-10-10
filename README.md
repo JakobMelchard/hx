@@ -1,16 +1,21 @@
 # hx
 
-Library for minimal htmx 4 + JSDoc apps that run as Node server, Cloudflare Worker, or in-page (Android/offline). Library only — CI, hooks, devcontainers and skills live in the org platform repos (see `JakobMelchard/.agents/PLATFORM.md`).
+Library for minimal htmx 4 + JSDoc apps that run as a Node server, a Cloudflare Worker, or in-page (Android/offline).
 
-- `src/handle.js` router `(Request, Env) → Response` · `src/transport.js` in-page htmx transport · `src/store/*` Store adapters + `runStoreContract` · `src/html.js` · `src/tags.js`
-- CI: calls the shared `JakobMelchard/.github` `node.yml`. `consumers-e2e.yml` runs every repo in `consumers.json` against an hx sha, checking private consumers out with a melchbot token
-- Hooks: prek, `.pre-commit-config.yaml` pinning `JakobMelchard/.githooks` plus local tsc + test hooks (`brew install prek && prek install`)
-- Devcontainer: `hx-app` template from `JakobMelchard/.devcontainer` · skills (`new-hx-app`, `promote-pattern`, `upgrade-hx`, `add-store-adapter`) from `JakobMelchard/.agents`
-- Types: JSDoc only; `prepare` emits `.d.ts` into `types/` (gitignored) so consumers can run `tsc --strict`. Releases: release-please keeps a release PR open; merging it tags `v<x.y.z>`, the publish workflow stages it on npmjs.org and the owner approves it (`npm i @jakobmelchard/hx`).
-- Design: `SPEC.md` · roadmap prompts: `PROMPTS.md`
-
-Status: P1, P2, P5 (R2 store, lift Workers target), P6 (SAF store, lift Android target), core of P7/P8 done. lift is the reference consumer, repo `JakobMelchard/workouts-hx`.
-
+```sh
+npm i @jakobmelchard/hx
 ```
+
+- `@jakobmelchard/hx/handle` router `(Request, Env) → Response`, with same-origin checks on non-GET requests
+- `@jakobmelchard/hx/html` tagged template with escaping · `@jakobmelchard/hx/tags` `match()`
+- `@jakobmelchard/hx/transport` in-page htmx transport
+- `@jakobmelchard/hx/node` `nodeListener` for `node:http`
+- `@jakobmelchard/hx/store/{memory,fs,kv,r2,saf}` Store adapters · `store/contract` `runStoreContract` · `store/conflict` `isConflict`
+- `@jakobmelchard/hx/types` shared typedefs (`Store`, `Env`)
+- Types: JSDoc only; the package ships emitted `.d.ts` so consumers can run `tsc --strict`
+
+Design notes and contributor docs are in the [repository](https://github.com/JakobMelchard/hx).
+
+```sh
 npm ci && npx tsc && npm test && npm run e2e   # e2e: CHROMIUM_PATH=/path/to/chrome if needed
 ```
