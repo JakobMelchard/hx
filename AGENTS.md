@@ -29,11 +29,10 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 - `src/node.js` `nodeListener(handle, env, {assets})` for `node:http`: fixed asset map, handler errors become 500
 - `src/store/{memory,fs,kv,r2,saf}.js` Store adapters, `src/store/contract.js` `runStoreContract`, `src/store/conflict.js` `isConflict` (import-free, Workers-safe)
 - `src/types.js` shared typedefs
-- Skills live in `JakobMelchard/.agents`, loaded from that checkout; nothing ships inside this package
+- Agent skills are kept outside this repo; nothing ships inside this package
 - `tsconfig.json` extends `@jakobmelchard/config/tsconfig` (the `JakobMelchard/.config` package, pinned
   to a tag in `package.json`) and only adds `include`; `.editorconfig`, `.gitleaks.toml` are copied by `config-sync`
-- `.devcontainer/` this repo's dev environment. The consumer scaffold is the
-  `hx-app` template in `JakobMelchard/.devcontainer`
+- `.devcontainer/` this repo's dev environment
 - `SPEC.md` design, `PROMPTS.md` roadmap as one PR per prompt
 
 ## Invariants
@@ -63,7 +62,7 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
   e2e), then `consumers-e2e.yml`. Shared workflows are pinned by sha; Renovate bumps them.
 - `consumers-e2e.yml` checks out every repo in `consumers.json`, installs hx at the
   PR sha, runs that consumer's full suite: `npx tsc && npm test`, then the entry's
-  `e2e` command (`npm run e2e` unless set; interviews builds its Python server
+  `e2e` command (`npm run e2e` unless set; a consumer may build its own server
   first). It cannot call the shared `node.yml`, which only builds its own caller's
   checkout.
 - Hooks: prek from `.pre-commit-config.yaml` (`JakobMelchard/.githooks` pinned by tag, Renovate bumps it) plus
@@ -74,5 +73,4 @@ CHROMIUM_PATH="/Applications/Chromium.app/Contents/MacOS/Chromium" npm run e2e
 - `SPEC.md` section 4 is aspirational and does not match the tree. It describes
   `packages/hx/` and an `@hx/hx` package name; the real layout is flat `src/` with
   subpath exports from `@jakobmelchard/hx`. Trust the tree, not the spec, for layout.
-- `SPEC.md` is titled for `lift` (repo `JakobMelchard/workouts-hx`) because hx was
-  extracted from it. It is still the design document for both.
+- `SPEC.md` is titled for `lift`, the app hx was extracted from. It is still the design document for both.
