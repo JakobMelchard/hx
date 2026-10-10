@@ -11,9 +11,10 @@ npm i @jakobmelchard/hx
 - `@jakobmelchard/hx/transport` in-page htmx transport
 - `@jakobmelchard/hx/node` `nodeListener` for `node:http`
 - `@jakobmelchard/hx/store/{memory,fs,kv,r2,saf}` Store adapters · `store/contract` `runStoreContract` · `store/conflict` `isConflict`
+- `@jakobmelchard/hx/types` shared typedefs (`Store`, `Env`)
 - Types: JSDoc only; the package ships emitted `.d.ts` so consumers can run `tsc --strict`
 
-Design notes are in `SPEC.md`, contributor notes in `AGENTS.md`.
+Design notes and contributor docs are in the [repository](https://github.com/JakobMelchard/hx).
 
 ```sh
 npm ci && npx tsc && npm test && npm run e2e   # e2e: CHROMIUM_PATH=/path/to/chrome if needed
