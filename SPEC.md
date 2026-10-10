@@ -94,7 +94,6 @@ core/
       e2e-playwright.yml  # inputs: start-cmd, url
       worker-deploy.yml   # wrangler
       android-build.yml   # capacitor sync + gradle assemble, emulator tests
-      consumers-e2e.yml   # matrix over consumer repos @ core PR sha  ← closes the loop
     actions/              # composite
       cache-gradle/ syncthing-fixture/
   .pre-commit-config.yaml  # prek: JakobMelchard/.githooks pinned by tag, plus local tsc + test
@@ -106,10 +105,9 @@ core/
     add-store-adapter/SKILL.md
     promote-pattern/SKILL.md     # extract from consumer → core PR
     upgrade-core/SKILL.md
-  consumers.json          # [{repo, ref, e2e:"npm run e2e"}]
 ```
 
-Consumer (`lift`, repo `JakobMelchard/workouts-hx`) contains only: `src/handlers/*.js`, `src/views/*.js`, `data/` fixtures, `e2e/`, thin workflow files calling `JakobMelchard/.github/.github/workflows/node.yml@main`, `.devcontainer/devcontainer.json` referencing the feature, `.githooks` → shared hooks from `JakobMelchard/.github`, `.agents/skills` → synced from core (copy on `upgrade-core`, not symlink — agents in sandboxes don't follow external links).
+Consumer (`lift`) contains only: `src/handlers/*.js`, `src/views/*.js`, `data/` fixtures, `e2e/`, thin workflow files calling `JakobMelchard/.github/.github/workflows/node.yml@main`, `.devcontainer/devcontainer.json` referencing the feature, `.githooks` → shared hooks from `JakobMelchard/.github`, `.agents/skills` → synced from core (copy on `upgrade-core`, not symlink — agents in sandboxes don't follow external links).
 
 ## 5. Self-improving loop
 
@@ -119,7 +117,7 @@ consumer hits gap ─► implements locally under src/_candidate/<name>/ + test
         ▼  skill: promote-pattern (agent)
 core PR: move code + generalize + contract test + docs + bump minor
         │
-        ▼  consumers-e2e.yml: checkout each consumers.json repo, override @core/* and workflow refs to PR sha, run their e2e
+        ▼  CI green (a consumer matrix was dropped; consumers test released versions via Renovate PRs)
 all green ─► merge ─► release tag vX.Y ─► Renovate/Dependabot PRs in consumers (npm + github-actions refs)
         │
         ▼  skill: upgrade-core — delete local _candidate copy, rerun e2e
