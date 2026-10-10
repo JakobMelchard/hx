@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.3](https://github.com/JakobMelchard/hx/compare/v0.4.2...v0.4.3) (2026-10-06)
+
+
+### Bug Fixes
+
+* lint and format in CI, surface fs errors, fixed 500 body ([#47](https://github.com/JakobMelchard/hx/issues/47)) ([fc9785d](https://github.com/JakobMelchard/hx/commit/fc9785d9ece21a35b2b035cbaad8a4c6a78a4213))
+
 ## [0.4.2](https://github.com/JakobMelchard/hx/compare/v0.4.1...v0.4.2) (2026-10-06)
 
 
